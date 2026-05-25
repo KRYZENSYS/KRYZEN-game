@@ -1,6 +1,6 @@
 {
-  "name": "AI Game Automation",
-  "description": "Advanced computerized vision-based Android game automation system utilizing simulated YOLOv8 and Accessibility Service gesture dispatchers.",
+  "name": "AI O'yin Avtomatizatsiyasi",
+  "description": "Simulyatsiya qilingan YOLOv8 va Maxsus Imkoniyatlar Xizmati (Accessibility Service) yordamida kompyuter ko'rishi asosidagi mukammal Android o'yinlarini avtomatlashtirish tizimi.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

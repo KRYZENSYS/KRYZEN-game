@@ -45,7 +45,7 @@ class CoreController : Service() {
         val isServiceRunning = MutableStateFlow(false)
         val currentFps = MutableStateFlow(0)
         val currentLatency = MutableStateFlow(0L)
-        val logsList = MutableStateFlow<List<String>>(listOf("System initialized."))
+        val logsList = MutableStateFlow<List<String>>(listOf("Tizim ishga tushirildi."))
         val detectedTargets = MutableStateFlow<List<DetectedObject>>(emptyList())
         val currentHp = MutableStateFlow(1.0f)
         val activeSteering = MutableStateFlow<SteeringVector?>(null)
@@ -91,11 +91,11 @@ class CoreController : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startForeground(
                 NOTIFICATION_ID, 
-                buildNotification("Ready for Game Capture..."),
+                buildNotification("O'yin jarayonini tahlil qilishga tayyor..."),
                 android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
             )
         } else {
-            startForeground(NOTIFICATION_ID, buildNotification("Ready for Game Capture..."))
+            startForeground(NOTIFICATION_ID, buildNotification("O'yin jarayonini tahlil qilishga tayyor..."))
         }
         
         if (!isLoopActive) {
@@ -108,7 +108,7 @@ class CoreController : Service() {
         Log.d(TAG, "Starting Automation Core Threads...")
         isLoopActive = true
         isServiceRunning.value = true
-        addLog("SYSTEM ACTIVATED: Holding CPU locks...")
+        addLog("TIZIM FAOLLASHTIRILDI: Markaziy protsessor (CPU) bloklandi...")
 
         // 1. Acquire CPU WakeLock
         val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -146,7 +146,7 @@ class CoreController : Service() {
                 val hp = VisionModule.analyzeHealthBar(null, healingThreshold)
                 currentHp.value = hp
                 if (hp < healingThreshold) {
-                    addLog("CRITICAL HP TRIGGERED: ${String.format("%.1f", hp * 100)}% HP. Emulating Healing Consumable swipe.")
+                    addLog("XAVFLI HP CHUNKI: ${String.format("%.1f", hp * 100)}% HP. Sog'liqni tiklash aptechkasi simulyatsiyasi kiritilmoqda.")
                     performAutoHeal()
                     delay(3000) // Delay to complete simulated heal animation
                 }
@@ -155,11 +155,11 @@ class CoreController : Service() {
                 detections.forEach { obj ->
                     when (obj.category) {
                         "enemy" -> {
-                            addLog("CV ALERT: Found Enemy Opponent (${String.format("%.1f", obj.confidence * 100)}%) at X:${obj.boundingBox.centerX().toInt()}, Y:${obj.boundingBox.centerY().toInt()}")
+                            addLog("CV OGOHLANTIRISH: Dushman raqibi aniqlandi (${String.format("%.1f", obj.confidence * 100)}%) koordinatalar X:${obj.boundingBox.centerX().toInt()}, Y:${obj.boundingBox.centerY().toInt()}")
                             executeTacticalTouch(obj, width, height)
                         }
                         "loot_weapon", "loot_ammo", "loot_heal" -> {
-                            addLog("CV DETECTED LOOT: Priority item - ${obj.label}. Collecting item...")
+                            addLog("CV PRIZMET TEKSHIRUVI: Muhim buyum - ${obj.label}. Buyum olinmoqda...")
                             triggerLootClick(obj)
                         }
                     }
@@ -176,7 +176,7 @@ class CoreController : Service() {
                     currentFps.value = frameCount
                     frameCount = 0
                     lastTime = now
-                    updateNotification("Running frame analysis... FPS: ${currentFps.value} | LAT: ${currentLatency.value}ms")
+                    updateNotification("Kadrlar tahlili ishlamoqda... FPS: ${currentFps.value} | KNL: ${currentLatency.value}ms")
                 }
 
                 // Tick sleep to maintain stable target cycles (~30FPS)
@@ -202,7 +202,7 @@ class CoreController : Service() {
             val lootButtonY = obj.boundingBox.centerY()
             dispatcher.performClick(lootButtonX, lootButtonY, antiCheatJitterLevel)
         } else {
-            addLog("WARNING: Loot collection skipped. Accessibility service NOT enabled!")
+            addLog("OGOHLANTIRISH: O'ljani yig'ish bekor qilindi. Maxsus imkoniyatlar xizmati yoqilmagan!")
         }
     }
 
@@ -212,14 +212,14 @@ class CoreController : Service() {
             // Clicks HP pouch (standard layout is coordinate 540x950 on common HUD sizes)
             dispatcher.performClick(540f, 950f, antiCheatJitterLevel)
         } else {
-            addLog("WARNING: Direct healing input failed. Target Accessibility service offline.")
+            addLog("OGOHLANTIRISH: Sog'liq tiklash amalga oshmadi. Maxsus imkoniyatlar xizmati faol emas.")
         }
     }
 
     private fun executeTacticalTouch(target: DetectedObject, screenW: Int, screenH: Int) {
         val dispatcher = InputDispatcher.getInstance()
         if (dispatcher == null) {
-            addLog("TACTICAL RECOIL WARN: Input Dispatcher inaccessible. Enable Accessibility.")
+            addLog("TAKTIK OGOHLANTIRISH: Sensorli kiritish dispetcheri ishlamayapti. Maxsus imkoniyatlarni yoqing.")
             return
         }
 
@@ -232,7 +232,7 @@ class CoreController : Service() {
 
         // Apply anti-recoil pull vectors (Requirement 4 Recoil compensation)
         if (antiRecoilStrengthY > 0f || antiRecoilStrengthX > 0f) {
-            addLog("ANTI-RECOIL ACTIVE: Compensating recoil pull index Vector Y:-$antiRecoilStrengthY")
+            addLog("ANTI-RECOIL FAOL: Nishonni pastga tortish kompensatsiyasi Y:-$antiRecoilStrengthY")
             dispatcher.performSwipeForRecoil(
                 startX = fireButtonX,
                 startY = fireButtonY,
@@ -247,7 +247,7 @@ class CoreController : Service() {
         Log.d(TAG, "Stopping Automation Core...")
         isLoopActive = false
         isServiceRunning.value = false
-        addLog("SYSTEM OFF: Releasing system blocks...")
+        addLog("TIZIM O'CHIRILDI: Tizim blokirovkasi bo'shatildi...")
         
         metricsJob?.cancel()
         metricsJob = null
@@ -305,7 +305,7 @@ class CoreController : Service() {
         }
 
         val titleView = TextView(this).apply {
-            text = "AGAA CONTROLLER"
+            text = "AGAA BOSHQARUVCHISI"
             setTextColor(Color.parseColor("#FFCC00"))
             textSize = 11f
             setPadding(0, 0, 0, 8)
@@ -314,7 +314,7 @@ class CoreController : Service() {
         linear.addView(titleView)
 
         val txtFps = TextView(this).apply {
-            text = "CV STATE: ACTIVE"
+            text = "CV HOLATI: FAOL"
             setTextColor(Color.GREEN)
             textSize = 10f
         }
@@ -322,7 +322,7 @@ class CoreController : Service() {
 
         // Compact Toggle button inside widget
         val btnStop = Button(this).apply {
-            text = "DEACTIVATE"
+            text = "FAOLSIZLASH"
             setTextColor(Color.WHITE)
             textSize = 9f
             setPadding(8, 4, 8, 4)
@@ -334,7 +334,7 @@ class CoreController : Service() {
         }
         
         btnStop.setOnClickListener {
-            addLog("WIDGET MANUAL TOGGLE: Shutdown requested...")
+            addLog("WIDGET ORQALI O'CHIRISH: Tizimni to'xtatish so'raldi...")
             stopEngine()
             stopSelf()
         }
@@ -374,7 +374,7 @@ class CoreController : Service() {
             windowManager?.addView(floatingView, params)
         } catch (e: Exception) {
             Log.e(TAG, "Failed to mount window overlay widget: ${e.message}")
-            addLog("OVERLAY ERR: Floating widget overlay blocked. Grant overlay permissions.")
+            addLog("OVERLAY XATOSI: Suzuvchi widget bloklandi. Ekran ustidan chizish ruxsatini bering.")
         }
     }
 
@@ -382,7 +382,7 @@ class CoreController : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val serviceChannel = NotificationChannel(
                 CHANNEL_ID,
-                "AGAA Core Service Channel",
+                "AGAA Asosiy Xizmat Kanali",
                 NotificationManager.IMPORTANCE_LOW
             )
             val manager = getSystemService(NotificationManager::class.java)
@@ -400,11 +400,11 @@ class CoreController : Service() {
         )
 
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("AI Game Automation Agent Active")
+            .setContentTitle("AI O'yin Avtomatizatsiyasi Agenti Faol")
             .setContentText(text)
             .setSmallIcon(android.R.drawable.ic_media_play)
             .setContentIntent(pendingIntent)
-            .setSubText("Neural CV Loop active")
+            .setSubText("Neyron tahlil sikli faol")
             .build()
     }
 

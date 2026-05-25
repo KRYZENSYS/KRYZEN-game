@@ -74,7 +74,7 @@ object VisionModule {
             detections.add(
                 DetectedObject(
                     id = 1,
-                    label = "Opponent (Level ${Random.nextInt(1, 4)})",
+                    label = "Raqib (${Random.nextInt(1, 4)}-Daraja)",
                     confidence = 0.82f + Random.nextFloat() * 0.15f,
                     boundingBox = RectF(left, top, right, bottom),
                     category = "enemy"
@@ -84,12 +84,12 @@ object VisionModule {
 
         // Simulation of loot items with priority filters
         val lootItems = listOf(
-            Pair("M416 Rifle", "loot_weapon"),
-            Pair("5.56mm Ammo", "loot_ammo"),
-            Pair("First-Aid Kit", "loot_heal"),
-            Pair("Level 3 Helmet", "loot_armor"),
-            Pair("AWM Sniper", "loot_weapon"),
-            Pair("Painkiller", "loot_heal")
+            Pair("M416 Avtomati", "loot_weapon"),
+            Pair("5.56mm O\'qlar", "loot_ammo"),
+            Pair("Tibbiy To\'plam (Aptechka)", "loot_heal"),
+            Pair("3-Darajali Dubulg\'a", "loot_armor"),
+            Pair("AWM Snayperi", "loot_weapon"),
+            Pair("Og\'riq Qoldiruvchi", "loot_heal")
         )
 
         val selectedLoot = lootItems.random()
@@ -132,9 +132,9 @@ object VisionModule {
         val angle = Random.nextFloat() * 360f
         val distance = 50f + Random.nextFloat() * 400f
         val rec = when {
-            distance > 300f -> "CRITICAL RUN: Safe zone is distant. Follow 12 o'clock Vector."
-            distance > 100f -> "STEADY DISPLACEMENT: Entering blue safety ring border."
-            else -> "SAFE ZONE REACHED: Hold position and ambush incoming squads."
+            distance > 300f -> "CRITICAL QO'CHISH: Xavfsiz zona uzoqda. Soat 12 yo'nalishida harakatlaning."
+            distance > 100f -> "MEYORIDAGI SILJISH: Ko'k xavfsizlik halqasi chegarasiga kirilmoqda."
+            else -> "XAVFSIZ ZONAGA EHSON ETILDI: Pozitsiyani saqlang va dushman guruhlarini poylang."
         }
         return SteeringVector(angle, distance, rec)
     }

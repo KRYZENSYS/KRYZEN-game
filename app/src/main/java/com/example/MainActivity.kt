@@ -157,7 +157,7 @@ fun DashboardScreen(modifier: Modifier = Modifier) {
                 onRequestAccessibility = {
                     val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
                     context.startActivity(intent)
-                    Toast.makeText(context, "Locate 'AI Game Automation' in settings and enable.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Sozlamalardan 'AI O'yin Avtomatizatsiyasi'ni qidirib toping va yoqing.", Toast.LENGTH_LONG).show()
                 },
                 onRequestOverlay = {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -182,14 +182,14 @@ fun DashboardScreen(modifier: Modifier = Modifier) {
                             action = "STOP_SERVICE"
                         }
                         context.startService(intent)
-                        CoreController.addLog("SYSTEM USER SHUTDOWN: Agent core stopped manually.")
+                        CoreController.addLog("TIZIMNI FOYDALANUVCHI TO'XTATDI: Agent yadrosi qo'lda to'xtatildi.")
                     } else {
                         if (!hasOverlayPermission && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            Toast.makeText(context, "Grant floating overlay permission first!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Avval ekran ustidan chizish (overlay) ruxsatini bering!", Toast.LENGTH_SHORT).show()
                         } else {
                             val intent = Intent(context, CoreController::class.java)
                             context.startService(intent)
-                            CoreController.addLog("SYSTEM DEPLOYED: Listening overlay channels.")
+                            CoreController.addLog("TIZIM ISHGA TUSHDI: Ekran ustidan chizish kanallari tinglanmoqda.")
                         }
                     }
                 }
@@ -263,18 +263,18 @@ fun DashboardScreen(modifier: Modifier = Modifier) {
         item {
             LiveLogsTerminalCard(
                 logs = logs,
-                onClear = { CoreController.logsList.value = listOf("Log reset by user.") },
+                onClear = { CoreController.logsList.value = listOf("Tizim jurnali foydalanuvchi tomonidan tozalandi.") },
                 onInjectDetections = {
                     // Educational mock injection: triggers automated firing routine
                     // demonstrating coordinate calculation pipeline flow to student/reviewer
-                    CoreController.addLog("[EDUCATIONAL INJECTION]: Triggering simulated Opponent Detection overlay...")
+                    CoreController.addLog("[TA'LIMIY INJEKSIYA]: Simulyatsiya qilingan dushmanni aniqlash ekrani ishga tushirildi...")
                     CoroutineScope(Dispatchers.Default).launch {
                         delay(200)
                         if (InputDispatcher.isServiceEnabled()) {
                             InputDispatcher.getInstance()?.performClick(960f, 540f, jitterFactor)
-                            CoreController.addLog("[Tactile Trigger]: Click emulated at center 960, 540.")
+                            CoreController.addLog("[Taktil Trigger]: 960, 540 raqamli markazda bosish simulyatsiya qilindi.")
                         } else {
-                            CoreController.addLog("[TACTILE FAIL]: Enable Accessibility to visualize Touch Dispatcher.")
+                            CoreController.addLog("[TAKTIK XATO]: Sensorli dispetcherni ko'rish uchun Maxsus imkoniyatlar xizmatini yoqing.")
                         }
                     }
                 }
@@ -302,14 +302,14 @@ fun HeaderSection(isRunning: Boolean, onExplainToggle: () -> Unit) {
             ) {
                 Column {
                     Text(
-                        text = "AI GAME AUTOMATION",
+                        text = "AI O'YIN AVTOMATIZATSIYASI",
                         color = Color.White,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Monospace
                     )
                     Text(
-                        text = "Real-Time OpenCV -> Brain -> Tactile Accessibility Hub",
+                        text = "Real vaqt rejimidagi OpenCV -> Miya -> Sensorli maxsus imkoniyatlar markazi",
                         color = Color.Gray,
                         fontSize = 11.sp
                     )
@@ -321,7 +321,7 @@ fun HeaderSection(isRunning: Boolean, onExplainToggle: () -> Unit) {
                 ) {
                     Icon(
                         imageVector = Icons.Default.Info,
-                        contentDescription = "Show Architecture Info",
+                        contentDescription = "Arxitektura ma'lumotlarini ko'rsatish",
                         tint = CyberPrimary
                     )
                 }
@@ -356,7 +356,7 @@ fun HeaderSection(isRunning: Boolean, onExplainToggle: () -> Unit) {
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = if (isRunning) "AGENT ACTIVE - INFERENCE RUNNING" else "AGENT OFF - DISCONNECTED",
+                    text = if (isRunning) "AGENT FAOL - TAHLIL ISHLAMOQDA" else "AGENT FAOL EMAS - ULANMAGAN",
                     color = if (isRunning) CyberGreenAccent else Color.Red,
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
@@ -377,7 +377,7 @@ fun WorkflowDiagramSection() {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "SYSTEM ARCHITECTURE WORKFLOW (THE EYE -> THE BRAIN -> THE HAND)",
+                text = "TIZIM ARXITEKTURASI ISH TIZIMI (KO'Z -> MIYA -> QO'L)",
                 color = CyberPrimary,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
@@ -386,9 +386,9 @@ fun WorkflowDiagramSection() {
             Spacer(modifier = Modifier.height(8.dp))
             
             val steps = listOf(
-                "THE EYE" to "Screen -> ImageReader Buffer -> INT8 YOLOv8 Quantized CNN -> Floating mapping",
-                "THE BRAIN" to "CoreController Service -> Collision Checking -> Pull index multipliers -> Steering safe directions",
-                "THE HAND" to "InputDispatcher -> Accessibility Gesture APIs -> Sinusoidal Jitter Splines -> Device Screen Click"
+                "KO'Z" to "Ekran -> ImageReader Buferi -> INT8 YOLOv8 Kvantlangan CNN -> Suzuvchi xaritlash",
+                "MIYA" to "CoreController Xizmati -> To'qnashuvlarni tekshirish -> Tortish indeksi ko'paytirgichlari -> Xavfsiz yo'nalishlarni boshqarish",
+                "QO'L" to "InputDispatcher -> Maxsus imkoniyatlar imo-ishora API-lari -> Sinusoidal tebranish egri chiziqlari -> Ekran bosilishi"
             )
 
             steps.forEachIndexed { index, pair ->
@@ -434,7 +434,7 @@ fun SystemStatusCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "ANDROID SYSTEM CONTROLS REQUIRED",
+                text = "ANDROID TIZIMINI BOSHQARISH TALAB QILINADI",
                 color = Color.Gray,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
@@ -450,13 +450,13 @@ fun SystemStatusCard(
             ) {
                 Column {
                     Text(
-                        text = "Accessibility Touch Controller",
+                        text = "Maxsus imkoniyatlar imo-ishora boshqaruvchisi",
                         color = Color.White,
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Medium
                     )
                     Text(
-                        text = if (hasAccessibility) "Granted" else "Requires manual config to simulate tactile swipes.",
+                        text = if (hasAccessibility) "Ruxsat etilgan" else "Ekranda tegishlarni simulyatsiya qilish uchun qo'lda sozlash talab qilinadi.",
                         color = if (hasAccessibility) CyberGreenAccent else Color.LightGray,
                         fontSize = 11.sp
                     )
@@ -470,12 +470,12 @@ fun SystemStatusCard(
                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
                         modifier = Modifier.testTag("enable_accessibility_button")
                     ) {
-                        Text("Config", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                        Text("Sozlash", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                     }
                 } else {
                     Icon(
                         imageVector = Icons.Default.CheckCircle,
-                        contentDescription = "Granted",
+                        contentDescription = "Ruxsat etilgan",
                         tint = CyberGreenAccent
                     )
                 }
@@ -493,13 +493,13 @@ fun SystemStatusCard(
             ) {
                 Column {
                     Text(
-                        text = "Overlay HUD Floating Window",
+                        text = "HUD ekrani ustida suzuvchi oyna",
                         color = Color.White,
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Medium
                     )
                     Text(
-                        text = if (hasOverlay) "Granted" else "Allows drawing quick action meters over active games.",
+                        text = if (hasOverlay) "Ruxsat etilgan" else "Faol o'yinlar ustida tezkor harakat o'lchagichlarini chizish imkonini beradi.",
                         color = if (hasOverlay) CyberGreenAccent else Color.LightGray,
                         fontSize = 11.sp
                     )
@@ -513,12 +513,12 @@ fun SystemStatusCard(
                         contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
                         modifier = Modifier.testTag("enable_overlay_button")
                     ) {
-                        Text("Grant", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                        Text("Ruxsat berish", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                     }
                 } else {
                     Icon(
                         imageVector = Icons.Default.CheckCircle,
-                        contentDescription = "Granted",
+                        contentDescription = "Ruxsat etilgan",
                         tint = CyberGreenAccent
                     )
                 }
@@ -547,13 +547,13 @@ fun PrimaryActivationCard(
     ) {
         Icon(
             imageVector = if (isRunning) Icons.Default.Stop else Icons.Default.PlayArrow,
-            contentDescription = if (isRunning) "Stop service" else "Start service",
+            contentDescription = if (isRunning) "Xizmatni to'xtatish" else "Xizmatni ishga tushirish",
             tint = Color.White,
             modifier = Modifier.size(24.dp)
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = if (isRunning) "SHUTDOWN AI AUTOMATION AGENT" else "DEPLOY AI AUTOMATION AGENT (FOREGROUND)",
+            text = if (isRunning) "AI AVTOMATIZATSIYA AGENTINI TO'XTATISH" else "AI AVTOMATIZATSIYA AGENTINI ISHGA TUSHIRISH (FOREGROUND)",
             color = Color.White,
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
@@ -579,7 +579,7 @@ fun TelemetryHUDCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "REAL-TIME TELEMETRY STATS HUD",
+                text = "REAL-VAQT TELEMETRIYA STATISTIKASI HUD",
                 color = Color.Gray,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
@@ -590,31 +590,31 @@ fun TelemetryHUDCard(
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 // FPS Telemetry
                 Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.weight(1f)) {
-                    Text("Inference Speed", color = Color.Gray, fontSize = 9.sp)
+                    Text("Tahlil tezligi", color = Color.Gray, fontSize = 9.sp)
                     Text(
                         text = if (isRunning) "${latency}ms" else "--",
                         color = CyberBlueAccent,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Black
                     )
-                    Text("INT8 GPU Core", color = Color.Gray, fontSize = 8.sp)
+                    Text("INT8 GPU Yadrosi", color = Color.Gray, fontSize = 8.sp)
                 }
 
                 // AI Engine State
                 Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.weight(1f)) {
-                    Text("Tactical FPS", color = Color.Gray, fontSize = 9.sp)
+                    Text("Taktik FPS", color = Color.Gray, fontSize = 9.sp)
                     Text(
                         text = if (isRunning) "$fps" else "--",
                         color = CyberGreenAccent,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Black
                     )
-                    Text("33ms loop cycle", color = Color.Gray, fontSize = 8.sp)
+                    Text("33ms sikl davri", color = Color.Gray, fontSize = 8.sp)
                 }
 
                 // Health Analyzer Indicator
                 Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.weight(1f)) {
-                    Text("Parsed HUD HP", color = Color.Gray, fontSize = 9.sp)
+                    Text("Tahlil qilingan HUD HP", color = Color.Gray, fontSize = 9.sp)
                     Text(
                         text = if (isRunning) "${String.format("%.0f", hp * 100)}%" else "--",
                         color = when {
@@ -625,7 +625,7 @@ fun TelemetryHUDCard(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Black
                     )
-                    Text("RGB HUD Scan", color = Color.Gray, fontSize = 8.sp)
+                    Text("RGB HUD Tahlili", color = Color.Gray, fontSize = 8.sp)
                 }
             }
 
@@ -635,7 +635,7 @@ fun TelemetryHUDCard(
 
             // AI Target Detections
             Text(
-                text = "ACTIVE YOLO BOUNDS DETECTED ON CORE FRAME",
+                text = "FAOL YOLO CHEGARALARI ANIQLANDI",
                 color = CyberPrimary,
                 fontSize = 9.sp,
                 fontWeight = FontWeight.Bold,
@@ -645,7 +645,7 @@ fun TelemetryHUDCard(
 
             if (!isRunning) {
                 Text(
-                    text = "Activate the service engine to launch CNN frames overlay scanner.",
+                    text = "CNN kadrlar skanerini ishga tushirish uchun xizmatni faollashtiring.",
                     color = Color.LightGray,
                     fontSize = 11.sp,
                     textAlign = TextAlign.Center,
@@ -654,7 +654,7 @@ fun TelemetryHUDCard(
             } else {
                 if (detected.isEmpty()) {
                     Text(
-                        text = "Searching screen matrix loops. No high-confidence opponent found...",
+                        text = "Ekran matritsasi tekshirilmoqda. Yuqori ishonchli raqib topilmadi...",
                         color = Color.Gray,
                         fontSize = 11.sp,
                         textAlign = TextAlign.Center,
@@ -712,21 +712,21 @@ fun TelemetryHUDCard(
                     ) {
                         Icon(
                             imageVector = Icons.Default.DirectionsRun,
-                            contentDescription = "Safe Zone directions",
+                            contentDescription = "Xavfsiz zona yo'nalishi",
                             tint = CyberBlueAccent,
                             modifier = Modifier.size(20.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Column {
                             Text(
-                                text = "PATHFINDING VECTOR TO SAFE ZONE",
+                                text = "XAVFSIZ HUDUDGA YO'NALTIRUVCHI VEKTOR",
                                 color = CyberBlueAccent,
                                 fontSize = 9.sp,
                                 fontWeight = FontWeight.Bold,
                                 fontFamily = FontFamily.Monospace
                             )
                             Text(
-                                text = "${st.recommendation} (Steer: ${String.format("%.0f", st.directionAngle)}° at ${String.format("%.1f", st.distancePx)}m)",
+                                text = "${st.recommendation} (Burilish burchagi: ${String.format("%.0f", st.directionAngle)}° | Masofa: ${String.format("%.1f", st.distancePx)}m)",
                                 color = Color.White,
                                 fontSize = 11.sp
                             )
@@ -759,7 +759,7 @@ fun GameLauncherCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "GAME LAUNCH TARGET SCANNER",
+                text = "O'YINNI ISHGA TUSHIRISH MAQSADLI SKANER",
                 color = Color.Gray,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
@@ -817,11 +817,11 @@ fun GameLauncherCard(
                             contentPadding = PaddingValues(horizontal = 12.dp, vertical = 2.dp),
                             shape = RoundedCornerShape(8.dp)
                         ) {
-                            Text("Launch", fontSize = 11.sp, color = Color.Black, fontWeight = FontWeight.Bold)
+                            Text("Yoqish", fontSize = 11.sp, color = Color.Black, fontWeight = FontWeight.Bold)
                         }
                     } else {
                         Text(
-                            text = "Uninstalled",
+                            text = "O'rnatilmagan",
                             color = Color.Gray,
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Bold,
@@ -848,7 +848,7 @@ fun AntiCheatSecurityCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "ANTI-CHEAT SANITIZER (DYNAMIC HAND JITTERING)",
+                text = "ANTI-CHIT TOZALOVCHI (HAYOTIY QO'L TEBRANISHI)",
                 color = Color.Gray,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.Bold,
@@ -856,7 +856,7 @@ fun AntiCheatSecurityCard(
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Neutralizes static touches, linear drags and strict frame latency targets to evade modern engine scanners.",
+                text = "Zamonaviy anti-chit tizimlarini chetlab o'tish uchun statik bosishlar, chiziqli tortishlar va qat'iy kechikish vaqtlarini neytrallaydi.",
                 color = Color.LightGray,
                 fontSize = 11.sp
             )
@@ -864,7 +864,7 @@ fun AntiCheatSecurityCard(
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
-                    text = "Gaussian Jitter Radius:",
+                    text = "Gaus tebranish radiusi:",
                     color = Color.White,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold
@@ -892,9 +892,9 @@ fun AntiCheatSecurityCard(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Low (Predictable)", color = Color.Gray, fontSize = 9.sp)
-                Text("Standard Jitter", color = CyberGreenAccent, fontSize = 9.sp, fontWeight = FontWeight.Bold)
-                Text("High (Heavy Jitter)", color = Color.Gray, fontSize = 9.sp)
+                Text("Past (Aniq)", color = Color.Gray, fontSize = 9.sp)
+                Text("Standart tebranish", color = CyberGreenAccent, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+                Text("Yuqori (Kuchli tebranish)", color = Color.Gray, fontSize = 9.sp)
             }
         }
     }
@@ -916,7 +916,7 @@ fun AntiRecoilControlCard(
         Column(modifier = Modifier.padding(16.dp)) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
-                    text = "ANTI-RECOIL TACTILE COMPENSATOR",
+                    text = "ANTI-RECOIL TAKTIL KOMPENSATORI",
                     color = Color.Gray,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Bold,
@@ -924,7 +924,7 @@ fun AntiRecoilControlCard(
                 )
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowUp,
-                    contentDescription = "Tactile Compensator",
+                    contentDescription = "Taktil kompensator",
                     tint = CyberPrimary,
                     modifier = Modifier.size(16.dp)
                 )
@@ -933,7 +933,7 @@ fun AntiRecoilControlCard(
 
             // Vert pull (Y axis)
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(text = "Vertical Grip Strength (Y Pull):", color = Color.White, fontSize = 12.sp)
+                Text(text = "Vertikal tortish kuchi (Y o'qi):", color = Color.White, fontSize = 12.sp)
                 Text(
                     text = "${String.format("%.1f", strengthY)}x",
                     color = CyberPrimary,
@@ -952,7 +952,7 @@ fun AntiRecoilControlCard(
 
             // Horiz correction (X axis)
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(text = "Horizontal Deviation Dampening (X Pull):", color = Color.White, fontSize = 12.sp)
+                Text(text = "Gorizontal og'ishni kamaytirish (X o'qi):", color = Color.White, fontSize = 12.sp)
                 Text(
                     text = "${String.format("%.1f", strengthX)}x",
                     color = CyberBlueAccent,
@@ -985,7 +985,7 @@ fun AdaptiveHealingCard(
         Column(modifier = Modifier.padding(16.dp)) {
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
-                    text = "ADAPTIVE HEALTH MONITOR & AUTO-HEAL",
+                    text = "ADAPTIV SALOMATLIK MONITORI VA AVTO-DAVOLASH",
                     color = Color.Gray,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Bold,
@@ -993,7 +993,7 @@ fun AdaptiveHealingCard(
                 )
                 Icon(
                     imageVector = Icons.Default.HealthAndSafety,
-                    contentDescription = "Auto Heal",
+                    contentDescription = "Avto-davolash",
                     tint = CyberGreenAccent,
                     modifier = Modifier.size(16.dp)
                 )
@@ -1001,7 +1001,7 @@ fun AdaptiveHealingCard(
             Spacer(modifier = Modifier.height(12.dp))
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("Threshold to trigger consume:", color = Color.White, fontSize = 12.sp)
+                Text("Ishga tushish HP chegarasi:", color = Color.White, fontSize = 12.sp)
                 Text(
                     text = "${String.format("%.0f", healThreshold * 100)}% HP",
                     color = CyberGreenAccent,
@@ -1020,7 +1020,7 @@ fun AdaptiveHealingCard(
 
             // Bar visualizer representing live HUD parser
             Spacer(modifier = Modifier.height(8.dp))
-            Text("Simulated HUD HP Status Bar:", color = Color.Gray, fontSize = 9.sp)
+            Text("Simulyatsiya qilingan HUD HP holat paneli:", color = Color.Gray, fontSize = 9.sp)
             Spacer(modifier = Modifier.height(4.dp))
             Canvas(
                 modifier = Modifier
@@ -1074,7 +1074,7 @@ fun LiveLogsTerminalCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "TACTICAL TELEMETRY LIVE TERMINAL",
+                    text = "TAKTIK TELEMETRIYA JONLI TERMINALI",
                     color = Color.LightGray,
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Bold,
@@ -1083,7 +1083,7 @@ fun LiveLogsTerminalCard(
                 
                 Row {
                     Text(
-                        text = "TEST INJECT",
+                        text = "TEST INJEKSIYA",
                         color = CyberBlueAccent,
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
@@ -1094,7 +1094,7 @@ fun LiveLogsTerminalCard(
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
-                        text = "CLEAR",
+                        text = "TOZALASH",
                         color = Color.Red,
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
@@ -1124,9 +1124,9 @@ fun LiveLogsTerminalCard(
                         Text(
                             text = "> $log",
                             color = when {
-                                log.contains("ALERT") || log.contains("CRITICAL") -> Color.Red
-                                log.contains("ACTIVE") || log.contains("DEPLOYED") -> CyberGreenAccent
-                                log.contains("INJECTION") -> CyberBlueAccent
+                                log.contains("ALERT") || log.contains("CRITICAL") || log.contains("OGOHLANTIRISH") || log.contains("XAVFLI") -> Color.Red
+                                log.contains("ACTIVE") || log.contains("DEPLOYED") || log.contains("FAOL") || log.contains("ISHGA TUSHDI") -> CyberGreenAccent
+                                log.contains("INJECTION") || log.contains("INJEKSIYA") -> CyberBlueAccent
                                 else -> Color.LightGray
                             },
                             fontSize = 11.sp,

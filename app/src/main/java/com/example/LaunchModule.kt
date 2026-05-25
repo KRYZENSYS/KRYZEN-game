@@ -20,7 +20,7 @@ object LaunchModule {
         GameTarget("pubg_india", "BGMI (PUBG India)", "com.pubg.imobile", "ic_bgmi"),
         GameTarget("free_fire", "Free Fire", "com.dts.freefireth", "ic_freefire"),
         GameTarget("cod_mobile", "Call of Duty: Mobile", "com.activision.callofduty.shooter", "ic_codm"),
-        GameTarget("custom_test", "AGAA Internal Tester", "com.example", "ic_launcher_foreground")
+        GameTarget("custom_test", "AGAA Ichki Sinovchisi", "com.example", "ic_launcher_foreground")
     )
 
     fun getInstalledGames(context: Context): List<GameTarget> {
@@ -44,7 +44,7 @@ object LaunchModule {
             context.startActivity(intent)
             onSuccess()
         } else {
-            Toast.makeText(context, "Game could not be launched. Package not found!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "O'yinni ishga tushirib bo'lmadi. Paket topilmadi!", Toast.LENGTH_SHORT).show()
         }
     }
 }
