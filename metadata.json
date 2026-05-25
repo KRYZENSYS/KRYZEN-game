@@ -1,0 +1,6 @@
+{
+  "name": "AI Game Automation",
+  "description": "Advanced computerized vision-based Android game automation system utilizing simulated YOLOv8 and Accessibility Service gesture dispatchers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

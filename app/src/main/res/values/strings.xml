@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">AI Game Automation</string>
+    <string name="accessibility_service_description">AI Game Automation Agent Input Dispatcher for high-performance screen-touch and anti-recoil simulation.</string>
+</resources>
