@@ -32,12 +32,11 @@
             </intent-filter>
         </activity>
 
-        <!-- Core Controller: Foreground Service connecting the modules -->
         <service
             android:name=".CoreController"
             android:enabled="true"
             android:exported="false"
-            android:foregroundServiceType="specialUse|mediaProjection">
+            android:foregroundServiceType="specialUse">
             <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
                 android:value="This foreground service continuously processes frame buffers using simulated YOLOv8 computer vision models to provide real-time accessibility overlay cues and pathfinding directions to disabled gamers." />
         </service>
